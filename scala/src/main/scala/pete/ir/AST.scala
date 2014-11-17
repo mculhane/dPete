@@ -4,6 +4,8 @@ sealed abstract class AST
 sealed abstract class Expr extends AST
 sealed abstract class TimeLiteral extends Expr
 
+case class TaskList(tasks: Seq[Task]) extends AST
+
 case class Task(start: Expr, due: Expr, done: Expr,
 				recurrence: Recurrence, description: String,
 				hash: String) extends AST
