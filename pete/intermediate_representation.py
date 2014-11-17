@@ -1,3 +1,7 @@
+class TaskList(object):
+    def __init__(self, tasks):
+        self.tasks = tasks
+
 class Task(object):
     def __init__(self, start, end, recurrence, description, hash):
         self.start = start
@@ -56,5 +60,4 @@ class Offset(object):
     def __init__(self, quantity, unit):
         self.quantity = quantity
         self.unit = unit
-
     
