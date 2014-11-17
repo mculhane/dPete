@@ -18,4 +18,4 @@ case class TimeStamp(t: String) extends TimeLiteral
 
 case class Recurrence(e: Expr) extends AST
 
-case class Offset(quantity: Int, unit: String)
+case class Offset(quantity: Int, unit: String) extends AST
