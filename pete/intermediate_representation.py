@@ -2,6 +2,7 @@ class TaskList(object):
     def __init__(self, tasks):
         self.tasks = tasks
 
+
 class Task(object):
     def __init__(self, start, due, done, recurrence, description, hash):
         self.start = start
@@ -26,17 +27,17 @@ class After(Expr):
     def __init__(self, expr, offset):
         self.expr = expr
         self.offset = offset
-        
+
 
 class Start(Expr):
     def __init__(self, hash):
         self.hash = hash
-        
+
 
 class Due(Expr):
     def __init__(self, hash):
         self.hash = hash
-        
+
 
 class Done(Expr):
     def __init__(self, hash):
@@ -50,15 +51,14 @@ class TimeLiteral(Expr):
 class TimeStamp(TimeLiteral):
     def __init__(self, timestamp):
         self.timestamp = timestamp
-            
+
 
 class Recurrence(object):
     def __init__(self, expr):
         self.expr = expr
-    
+
 
 class Offset(object):
     def __init__(self, quantity, unit):
         self.quantity = quantity
         self.unit = unit
-    
