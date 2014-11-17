@@ -3,9 +3,10 @@ class TaskList(object):
         self.tasks = tasks
 
 class Task(object):
-    def __init__(self, start, end, recurrence, description, hash):
+    def __init__(self, start, due, done, recurrence, description, hash):
         self.start = start
-        self.end = end
+        self.due = due
+        self.done = done
         self.recurrence = recurrence
         self.description = description
         self.hash = hash
