@@ -1,54 +1,72 @@
 import sublime, sublime_plugin
 
-
-class PeteStartCommand(sublime_plugin.TextCommand):
-
+class PeteControl(object):
     window = None
     tasks = None
     output = None
     edit = None
 
+PETE = PeteControl()
+
+class PeteStartCommand(sublime_plugin.TextCommand):
+
     def run(self, edit):
-        self.edit = edit
+        global PETE
+
+        PETE.edit = edit
 
         sublime.run_command("new_window")
-        self.window = sublime.active_window()
+        PETE.window = sublime.active_window()
 
-        self.tasks = self.window.open_file("~/tasks.txt")
+        PETE.tasks = PETE.window.open_file("~/tasks.txt")
 
-        self.window.set_layout({
+        PETE.window.set_layout({
             "cols": [0,1], 
             "rows": [0,0.5,1], 
             "cells": [[0,0,1,1], [0,1,1,2]]
             })
 
-        self.output = self.window.new_file()
+        PETE.output = PETE.window.new_file()
 
-        self.window.set_view_index(self.tasks, self.window.active_group(), 0)
-        self.window.set_view_index(self.output, self.window.active_group()+1, 0)
+        PETE.window.set_view_index(PETE.tasks, PETE.window.active_group(), 0)
+        PETE.window.set_view_index(PETE.output, PETE.window.active_group()+1, 0)
+        PETE.window.focus_view(PETE.tasks)
 
         self.showPanel()
 
     
     def addTask(self, s):
-        self.tasks.run_command("pete_insert", {"task": s})
+        global PETE
+        PETE.tasks.run_command("pete_insert", {"task": s})
         self.showPanel()
 
     def showPanel(self):
-        self.window.show_input_panel("Add task:", 
+        global PETE
+        PETE.window.show_input_panel("Add task:", 
             "", 
             self.addTask, None, self.showPanel)
 
-    class PeteProcessTasks(sublime_plugin.EventListener):
 
-        def on_post_save_async(view):
-            pass
 
-    class PeteInsertCommand(sublime_plugin.TextCommand):
+class PeteInsertCommand(sublime_plugin.TextCommand):
 
-        def run(self, edit, task=""):
-            self.view.insert(edit, self.view.size(), task + "\n")
+    def run(self, edit, task=""):
+        self.view.insert(edit, self.view.size(), task + "\n")
 
 
 
+class PeteProcessTasks(sublime_plugin.EventListener):
 
+    def on_post_save(self, view):
+        global PETE
+
+        if (view == PETE.tasks):
+            point = 0
+
+            region = sublime.Region(0, view.size())
+
+            lines = view.lines(region)
+
+            for l in lines:
+                PETE.output.run_command("pete_insert", 
+                    {"task": view.substr(l)})
