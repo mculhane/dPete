@@ -18,7 +18,7 @@ case class Start(hash: String) extends Expr
 case class Due(hash: String) extends Expr
 case class Done(hash: String) extends Expr
 
-case class TimeStamp(timestamp: DateTime) extends TimeLiteral
+case class TimeStamp(datetime: DateTime) extends TimeLiteral
 
 case class Recurrence(expr: Expr) extends AST
 
