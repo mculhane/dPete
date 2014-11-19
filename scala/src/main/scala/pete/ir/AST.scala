@@ -1,5 +1,7 @@
 package pete.ir
 
+import com.github.nscala_time.time.Imports._
+
 sealed abstract class AST
 sealed abstract class Expr extends AST
 sealed abstract class TimeLiteral extends Expr
@@ -16,7 +18,7 @@ case class Start(hash: String) extends Expr
 case class Due(hash: String) extends Expr
 case class Done(hash: String) extends Expr
 
-case class TimeStamp(timestamp: String) extends TimeLiteral
+case class TimeStamp(timestamp: DateTime) extends TimeLiteral
 
 case class Recurrence(expr: Expr) extends AST
 
