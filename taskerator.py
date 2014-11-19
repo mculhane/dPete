@@ -1,4 +1,6 @@
-import sublime, sublime_plugin
+import sublime
+import sublime_plugin
+
 
 class PeteControl(object):
     window = None
@@ -7,6 +9,7 @@ class PeteControl(object):
     edit = None
 
 PETE = PeteControl()
+
 
 class PeteStartCommand(sublime_plugin.TextCommand):
 
@@ -21,10 +24,10 @@ class PeteStartCommand(sublime_plugin.TextCommand):
         PETE.tasks = PETE.window.open_file("~/tasks.txt")
 
         PETE.window.set_layout({
-            "cols": [0,1], 
-            "rows": [0,0.5,1], 
-            "cells": [[0,0,1,1], [0,1,1,2]]
-            })
+            "cols": [0, 1],
+            "rows": [0, 0.5, 1],
+            "cells": [[0, 0, 1, 1], [0, 1, 1, 2]]
+        })
 
         PETE.output = PETE.window.new_file()
 
@@ -34,7 +37,6 @@ class PeteStartCommand(sublime_plugin.TextCommand):
 
         self.showPanel()
 
-    
     def addTask(self, s):
         global PETE
         PETE.tasks.run_command("pete_insert", {"task": s})
@@ -42,10 +44,9 @@ class PeteStartCommand(sublime_plugin.TextCommand):
 
     def showPanel(self):
         global PETE
-        PETE.window.show_input_panel("Add task:", 
-            "", 
+        PETE.window.show_input_panel(
+            "Add task:", "",
             self.addTask, None, self.showPanel)
-
 
 
 class PeteInsertCommand(sublime_plugin.TextCommand):
@@ -54,19 +55,17 @@ class PeteInsertCommand(sublime_plugin.TextCommand):
         self.view.insert(edit, self.view.size(), task + "\n")
 
 
-
 class PeteProcessTasks(sublime_plugin.EventListener):
 
     def on_post_save(self, view):
         global PETE
 
         if (view == PETE.tasks):
-            point = 0
-
             region = sublime.Region(0, view.size())
 
             lines = view.lines(region)
 
             for l in lines:
-                PETE.output.run_command("pete_insert", 
+                PETE.output.run_command(
+                    "pete_insert",
                     {"task": view.substr(l)})
