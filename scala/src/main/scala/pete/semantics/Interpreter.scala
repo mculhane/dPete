@@ -13,42 +13,43 @@ package object semantics {
     val task_dictionary = construct_task_dictionary(task_list)
     task_list.tasks.map((x: Task) => (x, compute_due_date(x, task_dictionary)))
                    .filterNot(_._2.isEmpty)
-    			   .sortBy(_._2.get.datetime)
+    			   .sortBy(_._2.get)
                    .take(num_tasks)
                    .map(_._1)
                    .toList
   }
   
-  def compute_due_date(task: Task, task_dictionary: Map[String, Task]): Option[TimeStamp] = {
+  def compute_due_date(task: Task, task_dictionary: Map[String, Task]): Option[DateTime] = {
 	get_next_datetime(task.due, task_dictionary)
   }
   
-  def compute_start_date(task: Task, task_dictionary: Map[String, Task]): Option[TimeStamp] = {
+  def compute_start_date(task: Task, task_dictionary: Map[String, Task]): Option[DateTime] = {
     get_next_datetime(task.start, task_dictionary)
   }
   
-  def compute_done_date(task: Task, task_dictionary: Map[String, Task]): Option[TimeStamp] = {
+  def compute_done_date(task: Task, task_dictionary: Map[String, Task]): Option[DateTime] = {
     get_next_datetime(task.done, task_dictionary)
   } 
   
-  def get_next_datetime(expr: Expr, task_dictionary: Map[String, Task]): Option[TimeStamp] = expr match {
-    case TimeStamp(timestamp) => check_for_future(timestamp)
-    case Before(expr, offset) => check_for_future(get_next_datetime(expr, task_dictionary).get.datetime - compute_seconds(offset)) 
-    case After(expr, offset) => check_for_future(get_next_datetime(expr, task_dictionary).get.datetime + compute_seconds(offset))
-    case Start(hash) => get_next_datetime(task_dictionary.get(hash).get.start, task_dictionary)
-    case Due(hash) => get_next_datetime(task_dictionary.get(hash).get.due, task_dictionary)
-    case Done(hash) => get_next_datetime(task_dictionary.get(hash).get.done, task_dictionary)
+  
+  // This currently gets the first datetime for a task, but does not examine any sort of recurrence relationship.
+  def get_next_datetime(expr: Option[Expr], task_dictionary: Map[String, Task]): Option[DateTime] = {
+	expr map (_ match {
+        case TimeStamp(datetime) => Some(datetime) filter is_in_future
+        case Before(expr, offset) => get_next_datetime(Some(expr), task_dictionary) map (_ - get_period(offset)) filter is_in_future
+        case After(expr, offset) => get_next_datetime(Some(expr), task_dictionary) map (_ + get_period(offset))  filter is_in_future
+        case Start(hash) => get_next_datetime(task_dictionary.get(hash).flatMap(_.start), task_dictionary)
+        case Due(hash) => get_next_datetime(task_dictionary.get(hash).flatMap(_.due), task_dictionary)
+        case Done(hash) => get_next_datetime(task_dictionary.get(hash).flatMap(_.done), task_dictionary)
+    }) get
+  }
+
+  
+  def is_in_future(datetime: DateTime): Boolean = {
+    return datetime > DateTime.now
   }
   
-  def check_for_future(timestamp: DateTime): Option[TimeStamp] = {
-	if (timestamp > DateTime.now) {
-	  return Some(TimeStamp(timestamp))
-	} else {
-	  return None
-	}
-  }
-  
-  def compute_seconds(offset: Offset): Period = offset.unit match {
+  def get_period(offset: Offset): Period = offset.unit match {
 	  case "minute" => offset.quantity.minutes
 	  case "hour" => offset.quantity.hours
 	  case "day" => offset.quantity.days
