@@ -1,0 +1,25 @@
+// [PackageDev] target_format: plist, ext: tmLanguage
+
+{
+    "name": "Pete Todo",
+    "uuid": "26251B18-6B1D-12D9-AFDB-000D93589AF7",
+    "scopeName": "source.pete_todo",
+    "patterns": [
+        {
+            "match": "([A-Za-z0-9\\s]*)(\\@)([A-Za-z0-9\\s]*)(-)([A-Za-z0-9\\s]*)(Every|\\%)([A-Za-z0-9\\s]*)",
+            "captures": {
+              "1": { "name": "entity.name.function.pete" },
+              "2": { "name": "storage.modifier.pete" },
+              "3": { "name": "storage.modifier.pete" },
+              "4": { "name": "storage.modifier.pete" },
+              "5": { "name": "entity.name.function.pete" },
+              "6": { "name": "storage.modifier.pete" },
+              "7": { "name": "comment.line.double-slash.pete" }
+            }
+        }
+    ], 
+    "fileTypes": [
+        "todo", 
+        "pete"
+    ]
+}

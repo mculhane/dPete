@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>fileTypes</key>
+	<array>
+		<string>todo</string>
+		<string>pete</string>
+	</array>
+	<key>name</key>
+	<string>Pete Todo</string>
+	<key>patterns</key>
+	<array>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.pete</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>storage.modifier.pete</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>storage.modifier.pete</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>storage.modifier.pete</string>
+				</dict>
+				<key>5</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.pete</string>
+				</dict>
+				<key>6</key>
+				<dict>
+					<key>name</key>
+					<string>storage.modifier.pete</string>
+				</dict>
+				<key>7</key>
+				<dict>
+					<key>name</key>
+					<string>comment.line.double-slash.pete</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>([A-Za-z0-9\s]*)(\@)([A-Za-z0-9\s]*)(-)([A-Za-z0-9\s]*)(Every|\%)([A-Za-z0-9\s]*)</string>
+		</dict>
+	</array>
+	<key>scopeName</key>
+	<string>source.pete_todo</string>
+	<key>uuid</key>
+	<string>26251B18-6B1D-12D9-AFDB-000D93589AF7</string>
+</dict>
+</plist>
