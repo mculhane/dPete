@@ -10,7 +10,7 @@
               "name": "comment.hash.pete"
         },
         {  
-              "match": "(Every|\\%)([A-Za-z0-9\\-\\s\\\\]*)",
+              "match": "(Every|\\%)([A-Za-z0-9\\-\\s/]*)",
               "captures": {
                   "1": { "name": "keyword.control.pete" },
                   "2": { "name": "support.class.pete" }

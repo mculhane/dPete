@@ -32,7 +32,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(Every|\%)([A-Za-z0-9\-\s\\]*)</string>
+			<string>(Every|\%)([A-Za-z0-9\-\s/]*)</string>
 		</dict>
 		<dict>
 			<key>captures</key>
