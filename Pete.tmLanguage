@@ -28,28 +28,11 @@
 				<key>2</key>
 				<dict>
 					<key>name</key>
-					<string>entity.name.class.pete</string>
-				</dict>
-			</dict>
-			<key>match</key>
-			<string>(\@)([A-Za-z0-9\s]*)</string>
-		</dict>
-		<dict>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.control.pete</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
 					<string>support.class.pete</string>
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(Every|\%)([A-Za-z0-9\s]*)</string>
+			<string>(Every|\%)([A-Za-z0-9\-\s\\]*)</string>
 		</dict>
 		<dict>
 			<key>captures</key>
@@ -64,9 +47,19 @@
 					<key>name</key>
 					<string>entity.name.class.pete</string>
 				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.control.pete</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.class.pete</string>
+				</dict>
 			</dict>
 			<key>match</key>
-			<string>(-)([A-Za-z0-9\s]*)</string>
+			<string>(\@)([A-Za-z0-9\s]*)(-)([A-Za-z0-9\s]*)</string>
 		</dict>
 	</array>
 	<key>scopeName</key>

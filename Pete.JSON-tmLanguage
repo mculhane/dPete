@@ -10,26 +10,29 @@
               "name": "comment.hash.pete"
         },
         {  
-              "match": "(\\@)([A-Za-z0-9\\s]*)",
-              "captures": {
-                  "1": { "name": "keyword.control.pete" },
-                  "2": { "name": "entity.name.class.pete" }
-              }
-        },
-        {  
-              "match": "(Every|\\%)([A-Za-z0-9\\s]*)",
+              "match": "(Every|\\%)([A-Za-z0-9\\-\\s\\\\]*)",
               "captures": {
                   "1": { "name": "keyword.control.pete" },
                   "2": { "name": "support.class.pete" }
               }
         },
         {  
-              "match": "(-)([A-Za-z0-9\\s]*)",
+              "match": "(\\@)([A-Za-z0-9\\s]*)(-)([A-Za-z0-9\\s]*)",
               "captures": {
                   "1": { "name": "keyword.control.pete" },
-                  "2": { "name": "entity.name.class.pete" }
+                  "2": { "name": "entity.name.class.pete" },
+                  "3": { "name": "keyword.control.pete" },
+                  "4": { "name": "entity.name.class.pete" }
               }
         }
+        // TODO: decide if want to support "@ %" or require "@ - %"
+        // Adding this also causes highlighting in emails like "you@me.com"
+        // {  
+        //       "match": "(\\@)",
+        //       "captures": {
+        //           "1": { "name": "keyword.control.pete" }
+        //       }
+        // }
     ], 
     "fileTypes": [
         "todo", 
