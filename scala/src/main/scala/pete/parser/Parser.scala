@@ -1,6 +1,6 @@
 package pete.parser
 
-import scala.util.parsing.combinator.Parsers 
+import scala.util.parsing.combinator._
 import pete.ir._
 
 object PeteParser extends JavaTokenParsers with PackratParsers {
