@@ -25,6 +25,30 @@ class HashParserTests extends FunSpec with LangParseMatchers[String] {
     it("must start with a hash") {
       program("ABCDEF") should not (parse)
     }
+    
+    it("can have letters") {
+      program("#ABCDEF") should parseAs("#ABCDEF")
+    }
+    
+    it("can have numbers") {
+      program("#AB01AB") should parseAs("#AB01AB")
+    }
+    
+    it("cannot have no letters/numbers") {
+      program("#") should not (parse)
+    }
+    
+    it("can have a single letter/number") {
+      program("#A") should parseAs("#A")
+    }  
+    
+    it("can be reasonably long") {
+      program("#ABC0139283ABCDEF013") should parseAs("#ABC0139283ABCDEF013")
+    }
+    
+    it("cannot contain letters outside of A-F") {
+      program("#ABCDEFG") should not (parse)
+    }  
   }
 
 }

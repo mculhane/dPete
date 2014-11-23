@@ -24,5 +24,5 @@ object PeteParser extends JavaTokenParsers with PackratParsers {
       ( """*""".r ^^ {case datetime => Some(TimeStamp(DateTime.parse(datetime)))} )
     
     lazy val hash: PackratParser[String] = 
-      ( """#[a-fA-f0-9]+""".r ^^ {case hash => hash} )
+      ( """#[a-fA-F0-9]+""".r ^^ {case hash => hash} )
 }
