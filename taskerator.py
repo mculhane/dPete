@@ -59,7 +59,7 @@ class PeteStartCommand(sublime_plugin.ApplicationCommand):
         Set up the tasks file buffer
         """
         global PETE
-        
+
         PETE.tasks = PETE.window.open_file("~/tasks.txt")
         self.setSyntax(3, PETE.tasks)                   # Wait for the view to load before apply settings
         PETE.window.set_view_index(PETE.tasks, 0, 0)
@@ -88,10 +88,17 @@ class PeteProcessTasks(sublime_plugin.EventListener):
     def on_post_save_async(self, view):
         global PETE
 
+        # TODO: switch this to using a settings attribute instead of object comparison
         if (view == PETE.tasks):
-            region = sublime.Region(0, view.size())
+            taskRegion = sublime.Region(0, view.size())
+            lines = view.lines(taskRegion)
 
-            lines = view.lines(region)
+            # TODO: get delete working
+            # outputRegion = sublime.Region(0, PETE.output.size())
+            # PETE.output.run_command("erase", {"region": outputRegion})
 
             for l in lines:
                 PETE.output.run_command("append", {"characters": view.substr(l) + "\n"})
+
+
+

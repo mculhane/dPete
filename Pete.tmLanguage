@@ -17,37 +17,37 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>entity.name.function.pete</string>
+					<string>entity.name.pete</string>
 				</dict>
 				<key>2</key>
 				<dict>
 					<key>name</key>
-					<string>storage.modifier.pete</string>
+					<string>keyword.control.pete</string>
 				</dict>
 				<key>3</key>
 				<dict>
 					<key>name</key>
-					<string>storage.modifier.pete</string>
+					<string>entity.name.class.pete</string>
 				</dict>
 				<key>4</key>
 				<dict>
 					<key>name</key>
-					<string>storage.modifier.pete</string>
+					<string>keyword.control.pete</string>
 				</dict>
 				<key>5</key>
 				<dict>
 					<key>name</key>
-					<string>entity.name.function.pete</string>
+					<string>entity.name.class.pete</string>
 				</dict>
 				<key>6</key>
 				<dict>
 					<key>name</key>
-					<string>storage.modifier.pete</string>
+					<string>keyword.control.pete</string>
 				</dict>
 				<key>7</key>
 				<dict>
 					<key>name</key>
-					<string>comment.line.double-slash.pete</string>
+					<string>support.class</string>
 				</dict>
 			</dict>
 			<key>match</key>
