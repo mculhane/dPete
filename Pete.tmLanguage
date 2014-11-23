@@ -12,46 +12,61 @@
 	<key>patterns</key>
 	<array>
 		<dict>
+			<key>match</key>
+			<string>#[a-fA-F0-9]+</string>
+			<key>name</key>
+			<string>comment.hash.pete</string>
+		</dict>
+		<dict>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>entity.name.pete</string>
+					<string>keyword.control.pete</string>
 				</dict>
 				<key>2</key>
 				<dict>
 					<key>name</key>
-					<string>keyword.control.pete</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
 					<string>entity.name.class.pete</string>
-				</dict>
-				<key>4</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.control.pete</string>
-				</dict>
-				<key>5</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.class.pete</string>
-				</dict>
-				<key>6</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.control.pete</string>
-				</dict>
-				<key>7</key>
-				<dict>
-					<key>name</key>
-					<string>support.class</string>
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>([A-Za-z0-9\s]*)(\@)([A-Za-z0-9\s]*)(-)([A-Za-z0-9\s]*)(Every|\%)([A-Za-z0-9\s]*)</string>
+			<string>(\@)([A-Za-z0-9\s]*)</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.control.pete</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>support.class.pete</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>(Every|\%)([A-Za-z0-9\s]*)</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.control.pete</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.class.pete</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>(-)([A-Za-z0-9\s]*)</string>
 		</dict>
 	</array>
 	<key>scopeName</key>
