@@ -13,7 +13,7 @@
 	<array>
 		<dict>
 			<key>match</key>
-			<string>#[a-fA-F0-9]+</string>
+			<string>#[a-zA-Z0-9]+</string>
 			<key>name</key>
 			<string>comment.hash.pete</string>
 		</dict>
@@ -59,7 +59,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(\@)([A-Za-z0-9\s]*)(-)([A-Za-z0-9\s]*)</string>
+			<string>(\@)([A-Za-z0-9\s\-]*)(\s-\s)([A-Za-z0-9\s\-]*)</string>
 		</dict>
 	</array>
 	<key>scopeName</key>
