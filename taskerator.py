@@ -1,6 +1,9 @@
 import sublime
 import sublime_plugin
 
+import subprocess
+import functools
+
 
 class PeteControl(object):
     window = None
@@ -47,7 +50,7 @@ class PeteStartCommand(sublime_plugin.ApplicationCommand):
         PETE.output = PETE.window.new_file()
         PETE.output.set_name("Next Tasks")
         PETE.output.set_scratch(True)                   # Never report dirty for output window
-        PETE.output.assign_syntax('Packages/Pete.tmLanguage')
+        PETE.output.assign_syntax('Packages/Pete/Pete.tmLanguage')
 
         # For unclear reasons, the view index must be set before creating the next view. 
         # Otherwise, this view is not displayed properly initially.
@@ -74,7 +77,7 @@ class PeteStartCommand(sublime_plugin.ApplicationCommand):
         if (view.is_loading()):
             sublime.set_timeout(lambda: self.setSyntax(trys-1, view), 500)
         else:
-            view.assign_syntax('Packages/Pete.tmLanguage')
+            view.assign_syntax('Packages/Pete/Pete.tmLanguage')
 
     def addTask(self, s):
         global PETE
@@ -93,12 +96,26 @@ class PeteProcessTasks(sublime_plugin.EventListener):
             taskRegion = sublime.Region(0, view.size())
             lines = view.lines(taskRegion)
 
-            # TODO: get delete working
-            # outputRegion = sublime.Region(0, PETE.output.size())
-            # PETE.output.run_command("erase", {"region": outputRegion})
+            inputString = functools.reduce(lambda x,y: x + "\n" + view.substr(y), lines, "")
 
-            for l in lines:
-                PETE.output.run_command("append", {"characters": view.substr(l) + "\n"})
+            try:
+                sp = subprocess.Popen(["java", "-jar", sublime.packages_path() + "/Pete/Pete-assembly-0.1.jar"], 
+                    stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                output, err = sp.communicate(str.encode(inputString))
+            except subprocess.CalledProcessError as e:
+                output = inputString
+                print("except")
+
+            # TODO: find a better way to do delete
+            outputRegion = sublime.Region(0, PETE.output.size())
+            PETE.output.run_command("empty_view")
+
+            PETE.output.run_command("append", {"characters": bytes.decode(output)})
 
 
+# TODO: This feels so hacky. There has got to be a better way to call erase.
+class EmptyViewCommand(sublime_plugin.TextCommand):
+
+    def run(self, edit): 
+        self.view.erase(edit, sublime.Region(0, self.view.size()))
 
