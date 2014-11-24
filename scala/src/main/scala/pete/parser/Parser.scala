@@ -16,12 +16,13 @@ object PeteParser extends JavaTokenParsers with PackratParsers {
         | failure("Unable to parse TaskList")) 
 	
 	lazy val task: PackratParser[Task] = 
-      (  hash ~ """[a-zA-Z0-9\s]+""".r ~ "@" ~ expr ~ "-" ~ expr ~ "%" ~ """[a-zA-Z0-9\._]+""".r
+      (  hash ~ """[a-zA-Z0-9\s]*[a-zA-Z0-9]""".r ~ "@" ~ expr ~ "-" ~ expr ~ "%" ~ """[a-zA-Z0-9\s]+""".r
          ^^ {case hash~description~_~start~_~due~_~recurrence => Task(start, due, None, None, description, hash)}
         | failure("Unable to parse Task")) 
 
     lazy val expr: PackratParser[Option[Expr]] =
-      ( """*""".r ^^ {case datetime => Some(TimeStamp(DateTime.parse(datetime)))} )
+      ( ("""\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}(:\d{2})?)?""".r)
+         ^^ {case datetime => Some(TimeStamp(DateTime.parse(datetime)))} )
     
     lazy val hash: PackratParser[String] = 
       ( """#[a-fA-F0-9]+""".r ^^ {case hash => hash} )

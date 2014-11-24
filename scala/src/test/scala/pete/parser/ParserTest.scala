@@ -1,10 +1,13 @@
 package pete.parser
 
-import org.scalatest._
+import org.joda.time.DateTime
+import org.scalatest.FunSpec
 
-import pete.ir._
-import pete.parser._
-import edu.hmc.langtools._
+import edu.hmc.langtools.LangParseMatchers
+import pete.ir.Expr
+import pete.ir.Task
+import pete.ir.TaskList
+import pete.ir.TimeStamp
 
 class TaskListParserTests extends FunSpec with LangParseMatchers[TaskList] {
   
@@ -17,6 +20,31 @@ class TaskListParserTests extends FunSpec with LangParseMatchers[TaskList] {
   }
   
 }
+
+class TaskParserTests extends FunSpec with LangParseMatchers[Task] {
+  override val parser = {(s:String) => PeteParser.parseAll(PeteParser.task, s)}
+  
+  describe("A valid task") {
+    it("works in the general case") {
+      program("#ABCDEF Take out the trash @ 2012-10-06 - 2013-10-04 % Recurrence Info TBD") should parseAs(Task(Some(TimeStamp(DateTime.parse("2012-10-06"))), Some(TimeStamp(DateTime.parse("2013-10-04"))), None, None, "Take out the trash", "#ABCDEF"))
+    }
+  }  
+}
+
+class ExprParserTests extends FunSpec with LangParseMatchers[Option[Expr]] {
+  override val parser = {(s:String) => PeteParser.parseAll(PeteParser.expr, s)}
+  
+  describe("A valid expr") {
+    it("is an iso 8601 formatted date") {
+      program("2012-10-06") should parseAs(Some(TimeStamp(DateTime.parse("2012-10-06"))))
+    }
+
+    it("is an iso 8601 formatted datetime") {
+      program("2012-10-06T04:13:00") should parseAs(Some(TimeStamp(DateTime.parse("2012-10-06T04:13:00"))))
+    }
+  }  
+}
+    
 
 class HashParserTests extends FunSpec with LangParseMatchers[String] {
   override val parser = {(s:String) => PeteParser.parseAll(PeteParser.hash, s)}
