@@ -1,3 +1,5 @@
+![logo](https://cloud.githubusercontent.com/assets/3872922/5234323/f236f8f4-7777-11e4-8e00-8461dde11a38.JPG)
+
 # Pete
 
 
