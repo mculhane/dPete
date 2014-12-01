@@ -16,8 +16,10 @@ object PeteParser extends JavaTokenParsers with PackratParsers {
         | failure("Unable to parse TaskList")) 
 	
 	lazy val task: PackratParser[Task] = 
-      (  (hash ~ """[a-zA-Z0-9\s]*[a-zA-Z0-9]""".r ~ "@" ~ expr ~ "-" ~ expr ~ "%" ~ """[a-zA-Z0-9\s]+""".r
-         ^^ {case hash~description~_~start~_~due~_~recurrence => Task(start, due, None, None, description, hash)})
+      (  (hash ~ """[a-zA-Z0-9\s]*[a-zA-Z0-9]""".r ~ "@" ~ expr ~ "-" ~ expr ~ "%" ~ recurrence
+         ^^ {case hash~description~_~start~_~due~_~recur => Task(start, due, None, recur, description, hash)})
+        | (hash ~ """[a-zA-Z0-9\s]*[a-zA-Z0-9]""".r ~ "@" ~ expr ~ "-" ~ expr
+         ^^ {case hash~description~_~start~_~due => Task(start, due, None, None, description, hash)})
         | failure("Unable to parse Task")) 
 
     lazy val expr: PackratParser[Option[Expr]] =
@@ -28,4 +30,19 @@ object PeteParser extends JavaTokenParsers with PackratParsers {
     lazy val hash: PackratParser[String] = 
       ( ("""#[a-fA-F0-9]+""".r ^^ {case hash => hash}) 
        | failure("Unable to parse task's hash") )
+       
+    lazy val recurrence: PackratParser[Option[Recurrence]] = 
+       ( "every" ~ wholeNumber ~ unit
+           ^^ {case _~quantity~unit => Some(Recurrence(Every(Offset(quantity.toInt, unit)))) }
+       )
+
+    lazy val unit: PackratParser[String] = 
+      (
+    	("""minutes?""".r ^^ {case _ => "minute"})
+    	| ("""hours""".r ^^ {case _ => "hour"})
+    	| ("""days""".r ^^ {case _ => "days"})
+    	| ("""weeks?""".r ^^ {case _ => "week"})
+    	| ("""months?""".r ^^ {case _ => "month"})
+    	| ("""years?""".r ^^ {case _ =>"year"})
+      )
 }

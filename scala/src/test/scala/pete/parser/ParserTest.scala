@@ -8,6 +8,9 @@ import pete.ir.Expr
 import pete.ir.Task
 import pete.ir.TaskList
 import pete.ir.TimeStamp
+import pete.ir.Every
+import pete.ir.Offset
+import pete.ir.Recurrence
 
 class TaskListParserTests extends FunSpec with LangParseMatchers[TaskList] {
   
@@ -26,7 +29,7 @@ class TaskParserTests extends FunSpec with LangParseMatchers[Task] {
   
   describe("A valid task") {
     it("works in the general case") {
-      program("#ABCDEF Take out the trash @ 2012-10-06 - 2013-10-04 % Recurrence Info TBD") should parseAs(Task(Some(TimeStamp(DateTime.parse("2012-10-06"))), Some(TimeStamp(DateTime.parse("2013-10-04"))), None, None, "Take out the trash", "#ABCDEF"))
+      program("#ABCDEF Take out the trash @ 2012-10-06 - 2013-10-04 % every 2 weeks") should parseAs(Task(Some(TimeStamp(DateTime.parse("2012-10-06"))), Some(TimeStamp(DateTime.parse("2013-10-04"))), None, Some(Recurrence(Every(Offset(2, "week")))), "Take out the trash", "#ABCDEF"))
     }
   }  
 }
