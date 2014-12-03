@@ -48,6 +48,17 @@ else entirely?
 
 ### Christine's Critique
 
+Since recurrences seem to be addressed above, I thought I'd talk about the syntax. I understood it when I saw it on
+Monday, but it had more details than I cared about as a user (ie #AAAAAA. I don't want to worry about the id of the
+task). There are other small things that are a bit ambiguous, such as the start and end dates. I think these are
+the dates when the task starts to when it needs to be finished.
+
+I think you would benefit from some sort of tutorial/README that has an example run of creating a task, so that users
+are very clear on what they need to do. That being said, unless an aspect of the design heavily drives the coding, I
+think the team should focus on the coding of recurrences before making the user experience better.
+
+Good luck in the final weeks!
+
 ### Nick's Critique
 
 I like the sound of relative to exact statement conversion.  I hope you can get that working.
