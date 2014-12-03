@@ -49,6 +49,7 @@ else entirely?
 Christine's Critique
 
 Nick's Critique
+
 I like the sound of relative to exact statement conversion.  I hope you can get that working.
 
 Marking up the input file sounds like a better option.  You could strikethrough the event (if that's possible in the current file format), or come up with a reasonable marker for completed tasks (like a checkmark).
