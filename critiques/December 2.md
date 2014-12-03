@@ -1,4 +1,4 @@
-Michael's Critique
+### Michael's Critique
 
 First off, adding recurrences seems pretty ambitious.  The parsing you added
 doesn't seem too bad, but the semantics are likely to be difficult to pin down.
@@ -46,9 +46,9 @@ after A, or just anytime the day after A is due?  And what about
 weeks/days/months?  Do you intend to round based on A, or B, or do something
 else entirely?
 
-Christine's Critique
+### Christine's Critique
 
-Nick's Critique
+### Nick's Critique
 
 I like the sound of relative to exact statement conversion.  I hope you can get that working.
 
