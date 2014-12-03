@@ -49,3 +49,12 @@ else entirely?
 Christine's Critique
 
 Nick's Critique
+I like the sound of relative to exact statement conversion.  I hope you can get that working.
+
+Marking up the input file sounds like a better option.  You could strikethrough the event (if that's possible in the current file format), or come up with a reasonable marker for completed tasks (like a checkmark).
+
+Creating a better regex sounds achievable without being too difficult.  Maybe there's an existing approach you can work from?  It would make things a lot nicer for your users.  I hope you can make some simple things (like the hashtag) automated as well, that sounds achieveable and useful.
+
+It seems like you have a lot of potential tradeoffs between requireing the user to be better about their syntax and adding in better error checks.  If you can, it might be nice to make the parser more generous so punctuation can be added and accidental marks won't break parsing entirely.  However, I would make sure you don't put too much work on yourselves to get that to work.  If it's too hard to make the parser clever, just require your users to be better about syntax.
+
+It sounds like some work to add more clear and verbose syntax in place of succinct syntax.  Personally, I would stick with the succinct syntax and make the user figure it out.  That sounds easier and not unreasonable as a program creator.  If there is a benefit to the succinct syntax, making the user use it also sounds like a good idea.
