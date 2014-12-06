@@ -3,6 +3,14 @@ import sublime_plugin
 
 import subprocess
 import functools
+import datetime
+import os
+import sys
+
+# add the parsedatetime plugin folder to our path
+sys.path.append(os.path.join(os.path.dirname(__file__), "parsedatetime-1.4"))
+
+import parsedatetime as pdt
 
 
 class PeteControl(object):
@@ -39,7 +47,7 @@ class PeteStartCommand(sublime_plugin.ApplicationCommand):
         self.setup_tasks_buffer()
 
         PETE.window.focus_view(PETE.tasks)
-        self.showPanel()
+        # self.showPanel()
 
     def setup_output_buffer(self):
         """
@@ -67,23 +75,11 @@ class PeteStartCommand(sublime_plugin.ApplicationCommand):
         self.setSyntax(3, PETE.tasks)                   # Wait for the view to load before apply settings
         PETE.window.set_view_index(PETE.tasks, 0, 0)
 
-    def showPanel(self):
-        global PETE
-        PETE.window.show_input_panel(
-            "Add task:", "",
-            self.addTask, None, self.showPanel)
-
     def setSyntax(self, trys, view):
         if (view.is_loading()):
             sublime.set_timeout(lambda: self.setSyntax(trys-1, view), 500)
         else:
             view.assign_syntax('Packages/Pete/Pete.tmLanguage')
-
-    def addTask(self, s):
-        global PETE
-        PETE.tasks.run_command("append", {"characters": s + "\n"})
-        PETE.tasks.run_command("save")
-        self.showPanel()
 
 
 class PeteProcessTasks(sublime_plugin.EventListener):
@@ -103,14 +99,20 @@ class PeteProcessTasks(sublime_plugin.EventListener):
                     stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 output, err = sp.communicate(str.encode(inputString))
             except subprocess.CalledProcessError as e:
-                output = inputString
+                output = str.encode(inputString)
                 print("except")
+
+            # TODO: except case is not handled properly yet. Falls through with empty string
+            if (output == b''): 
+                output = str.encode(inputString)
 
             # TODO: find a better way to do delete
             outputRegion = sublime.Region(0, PETE.output.size())
             PETE.output.run_command("empty_view")
 
             PETE.output.run_command("append", {"characters": bytes.decode(output)})
+
+            view.run_command("replace_dates")
 
 
 # TODO: This feels so hacky. There has got to be a better way to call erase.
@@ -119,3 +121,54 @@ class EmptyViewCommand(sublime_plugin.TextCommand):
     def run(self, edit): 
         self.view.erase(edit, sublime.Region(0, self.view.size()))
 
+
+class ReplaceDatesCommand(sublime_plugin.TextCommand):
+
+    Calendar = pdt.Calendar()
+
+    def run(self, edit):
+        startDates = self.view.find_by_selector("entity.name.class.startdate.pete")
+        endDates = self.view.find_by_selector("entity.name.class.enddate.pete")
+
+        combined = startDates + endDates
+        combined.sort(key=lambda x: x.a, reverse=True)
+
+        # reverse iteration direction to prevent changes from messing up
+        # region indexes later in the loop.
+        for region in combined:
+            s = self.view.substr(region)
+            isoDate = self.replaceDate(s)
+            self.view.replace(edit, region, isoDate)
+
+    def replaceDate(self, s):
+        try:
+            isoDate = self.datetimeFromString(s).isoformat()
+        except ValueError as e:
+            sublime.error_message(e.__str__())
+            return s
+
+        return isoDate
+
+    def datetimeFromString(self, s):
+        
+        result, what = self.Calendar.parse( s )
+
+        dt = None
+
+        # what was returned (see http://code-bear.com/code/parsedatetime/docs/)
+        # 0 = failed to parse
+        # 1 = date (with current time, as a struct_time)
+        # 2 = time (with current date, as a struct_time)
+        # 3 = datetime
+        if what in (1,2):
+            # result is struct_time
+            dt = datetime.datetime( *result[:6] )
+        elif what == 3:
+            # result is a datetime
+            dt = result
+
+        if dt is None:
+            # Failed to parse
+            raise ValueError("Datetime '"+s+"' cannot be parsed.")
+
+        return dt
