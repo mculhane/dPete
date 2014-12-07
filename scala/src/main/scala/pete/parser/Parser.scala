@@ -57,8 +57,8 @@ object PeteParser extends JavaTokenParsers with PackratParsers {
     lazy val unit: PackratParser[String] = 
       (
     	("""minutes?""".r ^^ {case _ => "minute"})
-    	| ("""hours""".r ^^ {case _ => "hour"})
-    	| ("""days""".r ^^ {case _ => "days"})
+    	| ("""hours?""".r ^^ {case _ => "hour"})
+    	| ("""days?""".r ^^ {case _ => "days"})
     	| ("""weeks?""".r ^^ {case _ => "week"})
     	| ("""months?""".r ^^ {case _ => "month"})
     	| ("""years?""".r ^^ {case _ =>"year"})
