@@ -16,11 +16,29 @@ object PeteParser extends JavaTokenParsers with PackratParsers {
         | failure("Unable to parse TaskList")) 
 	
 	lazy val task: PackratParser[Task] = 
-      (  (hash ~ """[a-zA-Z0-9\s]*[a-zA-Z0-9]""".r ~ "@" ~ expr ~ "-" ~ expr ~ "%" ~ recurrence
-         ^^ {case hash~description~_~start~_~due~_~recur => Task(start, due, None, recur, description, hash)})
-        | (hash ~ """[a-zA-Z0-9\s]*[a-zA-Z0-9]""".r ~ "@" ~ expr ~ "-" ~ expr
-         ^^ {case hash~description~_~start~_~due => Task(start, due, None, None, description, hash)})
-        | failure("Unable to parse Task")) 
+	  ( dependencyTask | recurringTask | nonrecurringTask | failure("Unable to parse Task") )
+	
+	  
+	lazy val recurringTask: PackratParser[Task] = 
+      ( hash ~ taskDescription ~ "@" ~ expr ~ "-" ~ expr ~ "%" ~ recurrence
+        ^^ {case hash~description~_~start~_~due~_~recur => Task(start, due, None, recur, description, hash)})
+     
+    lazy val nonrecurringTask: PackratParser[Task] = 
+      ( hash ~ taskDescription ~ "@" ~ expr ~ "-" ~ expr
+        ^^ {case hash~description~_~start~_~due => Task(start, due, None, None, description, hash)}) 
+     
+    lazy val dependencyTask: PackratParser[Task] =  
+      ( hash ~ taskDescription ~ "^" ~ hash ~ relativeDate ~ "," ~ relativeDate
+        ^^ {case hash~description~_~dependenceHash~start~_~due => Task(Some(start), Some(due), None, None, description, hash)})
+    
+    lazy val relativeDate: PackratParser[Expr] = 
+      ( ("Start" | "Due") ~ ("+" | "-") ~ wholeNumber ~ unit
+        ^^ {case "Start" ~ "+" ~ quantity ~ unit => After(Start, Offset(quantity.toInt, unit))
+            case "Due" ~ "+" ~ quantity ~ unit => After(Due, Offset(quantity.toInt, unit))
+            case "Start" ~ "-" ~ quantity ~ unit => Before(Start, Offset(quantity.toInt, unit))
+            case "Due" ~ "-" ~ quantity ~ unit => Before(Due, Offset(quantity.toInt, unit))} )
+        
+    lazy val taskDescription: PackratParser[String] = regex("""[a-zA-Z0-9\s]*[a-zA-Z0-9]""".r)
 
     lazy val expr: PackratParser[Option[Expr]] =
       ( (("""\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}(:\d{2})?)?""".r)

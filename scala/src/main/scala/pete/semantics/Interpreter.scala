@@ -27,10 +27,6 @@ package object semantics {
     get_next_datetime(task.start, task_dictionary)
   }
   
-  def compute_done_date(task: Task, task_dictionary: Map[String, Task]): Option[DateTime] = {
-    get_next_datetime(task.done, task_dictionary)
-  } 
-  
   
   // This currently gets the first datetime for a task, but does not examine any sort of recurrence relationship.
   def get_next_datetime(expr: Option[Expr], task_dictionary: Map[String, Task]): Option[DateTime] = {
@@ -38,9 +34,8 @@ package object semantics {
         case TimeStamp(datetime) => Some(datetime) filter is_in_future
         case Before(expr, offset) => get_next_datetime(Some(expr), task_dictionary) map (_ - get_period(offset)) filter is_in_future
         case After(expr, offset) => get_next_datetime(Some(expr), task_dictionary) map (_ + get_period(offset))  filter is_in_future
-        case Start(hash) => get_next_datetime(task_dictionary.get(hash).flatMap(_.start), task_dictionary)
+        case Start(hash) => get_next_datetime(task_dictionary.get( ).flatMap(_.start), task_dictionary)
         case Due(hash) => get_next_datetime(task_dictionary.get(hash).flatMap(_.due), task_dictionary)
-        case Done(hash) => get_next_datetime(task_dictionary.get(hash).flatMap(_.done), task_dictionary)
     }) get
   }
 
