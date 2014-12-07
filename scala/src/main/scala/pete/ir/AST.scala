@@ -14,12 +14,11 @@ case class Task(start: Option[Expr], due: Option[Expr],
 
 case class Before(expr: Expr, offset: Offset) extends Expr
 case class After(expr: Expr, offset: Offset) extends Expr
-case object Start extends Expr
-case object Due extends Expr
+case object DependenceStart extends Expr
+case object DependenceDue extends Expr
 
 case class TimeStamp(datetime: DateTime) extends TimeLiteral
-case class Every(offset: Offset) extends TimeLiteral
 
-case class Recurrence(expr: Expr) extends AST
+case class Recurrence(offset: Offset) extends AST
 
 case class Offset(quantity: Int, unit: String) extends AST
