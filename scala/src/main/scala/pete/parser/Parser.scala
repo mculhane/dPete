@@ -46,7 +46,7 @@ object PeteParser extends JavaTokenParsers with PackratParsers {
         | failure("Unable to parse a datetime expression"))
     
     lazy val hash: PackratParser[String] = 
-      ( ("""#[a-fA-F0-9]+""".r ^^ {case hash => hash}) 
+      ( ("""#[a-zA-Z0-9]+""".r ^^ {case hash => hash}) 
        | failure("Unable to parse task's hash") )
        
     lazy val recurrence: PackratParser[Option[Recurrence]] = 
