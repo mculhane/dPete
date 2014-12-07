@@ -9,9 +9,75 @@ package object semantics {
     task_list.tasks map ((x: Task) => (x.hash, x)) toMap
   }
   
+  def isValidTask(task_dictionary: Map[String, Task])(task: Task): Boolean = {
+    val recurrence = get_recurrence(task, task_dictionary)
+    val start = get_datetime(task.start, task_dictionary, task)
+    val due = get_datetime(task.due, task_dictionary, task)
+    
+    // Make sure the due date falls after the start date
+    if (start.isDefined && due.isDefined && due.get < start.get) {
+      println("Task error: A task's due date must come after its start date.")
+      return false
+    }
+    
+    // Make sure recurring tasks have start and due dates defined
+    if (recurrence.isDefined && !(start.isDefined && due.isDefined)) {
+      println("Task error: A recurring task must have defined start and due dates.")
+      return false
+    }
+    
+    // Make sure recurring tasks' start and due dates encompass a smaller interval
+    // than the recurrence interval.
+    if (recurrence.isDefined && (start.get to due.get).millis > get_period(recurrence.get.offset).millis) {
+      println("Task error: A recurring task cannot be active for longer than its recurrence interval.")
+      return false
+    }
+
+    return true
+  }
+  
+  // Return a Task object representing the current instance of a task. If no instance
+  // of the task is currently active, return None.
+  def getCurrentInstance(task_dictionary: Map[String, Task])(task: Task): Option[Task] = {
+    val recurrence = get_recurrence(task, task_dictionary)
+    var start: Option[DateTime] = get_datetime(task.start, task_dictionary, task)
+    var due: Option[DateTime] = get_datetime(task.due, task_dictionary, task)
+    
+    if (recurrence.isEmpty) {
+      return if(is_current(start, due)) Some(task) else None
+    }
+    
+    val interval = get_period(recurrence.get.offset)
+  
+    while (is_in_past(due)) {
+	  start = start map (_ + interval)
+	  due = due map (_ + interval)
+    }
+ 
+    if (is_current(start, due)) {
+      val instance_start = Some(TimeStamp(start.get))
+      val instance_due = Some(TimeStamp(due.get))
+	  return Some(Task(instance_start, instance_due, task.dependence,
+	                   task.recurrence, task.description, task.hash))
+    } else {
+      return None
+    }
+
+  }
+  
+  def is_current(start: Option[DateTime], end:Option[DateTime]): Boolean = {
+    return !(start.isDefined && start.get > DateTime.now)  && !(end.isDefined && end.get < DateTime.now)
+  }
+
+  def is_in_past(end:Option[DateTime]): Boolean = {
+    return end.isDefined && end.get < DateTime.now
+  }
+  
   def compute_next_due_tasks(task_list: TaskList, num_tasks: Int): List[Task] = {
     val task_dictionary = construct_task_dictionary(task_list)
-    task_list.tasks.map((x: Task) => (x, compute_due_date(x, task_dictionary)))
+    task_list.tasks.filter(isValidTask(task_dictionary))
+    			   .flatMap(getCurrentInstance(task_dictionary))
+    			   .map((x: Task) => (x, compute_due_date(x, task_dictionary)))
                    .filterNot(_._2.isEmpty)
     			   .sortBy(_._2.get)
                    .take(num_tasks)
@@ -20,28 +86,30 @@ package object semantics {
   }
   
   def compute_due_date(task: Task, task_dictionary: Map[String, Task]): Option[DateTime] = {
-	get_next_datetime(task.due, task_dictionary)
+	get_datetime(task.due, task_dictionary, task)
   }
   
   def compute_start_date(task: Task, task_dictionary: Map[String, Task]): Option[DateTime] = {
-    get_next_datetime(task.start, task_dictionary)
+    get_datetime(task.start, task_dictionary, task)
   }
   
+  def get_recurrence(task: Task, task_dictionary: Map[String, Task]): Option[Recurrence] = {
+    if (task.dependence.isDefined) {
+      return get_recurrence(task_dictionary.get(task.dependence.get).get, task_dictionary)
+    } else {
+      return task.recurrence
+    }
+  }
   
   // This currently gets the first datetime for a task, but does not examine any sort of recurrence relationship.
-  def get_next_datetime(expr: Option[Expr], task_dictionary: Map[String, Task]): Option[DateTime] = {
+  def get_datetime(expr: Option[Expr], task_dictionary: Map[String, Task], task: Task): Option[DateTime] = {
 	expr map (_ match {
-        case TimeStamp(datetime) => Some(datetime) filter is_in_future
-        case Before(expr, offset) => get_next_datetime(Some(expr), task_dictionary) map (_ - get_period(offset)) filter is_in_future
-        case After(expr, offset) => get_next_datetime(Some(expr), task_dictionary) map (_ + get_period(offset))  filter is_in_future
-        case Start(hash) => get_next_datetime(task_dictionary.get( ).flatMap(_.start), task_dictionary)
-        case Due(hash) => get_next_datetime(task_dictionary.get(hash).flatMap(_.due), task_dictionary)
+        case TimeStamp(datetime) => Some(datetime)
+        case Before(expr, offset) => get_datetime(Some(expr), task_dictionary, task) map (_ - get_period(offset))
+        case After(expr, offset) => get_datetime(Some(expr), task_dictionary, task) map (_ + get_period(offset))
+        case DependenceStart => get_datetime(task_dictionary.get(task.dependence.get).flatMap(_.start), task_dictionary, task)
+        case DependenceDue => get_datetime(task_dictionary.get(task.dependence.get).flatMap(_.due), task_dictionary, task)
     }) get
-  }
-
-  
-  def is_in_future(datetime: DateTime): Boolean = {
-    return datetime > DateTime.now
   }
   
   def get_period(offset: Offset): Period = offset.unit match {

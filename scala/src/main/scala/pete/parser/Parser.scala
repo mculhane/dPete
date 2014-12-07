@@ -33,10 +33,10 @@ object PeteParser extends JavaTokenParsers with PackratParsers {
     
     lazy val relativeDate: PackratParser[Expr] = 
       ( ("Start" | "Due") ~ ("+" | "-") ~ wholeNumber ~ unit
-        ^^ {case "Start" ~ "+" ~ quantity ~ unit => After(Start, Offset(quantity.toInt, unit))
-            case "Due" ~ "+" ~ quantity ~ unit => After(Due, Offset(quantity.toInt, unit))
-            case "Start" ~ "-" ~ quantity ~ unit => Before(Start, Offset(quantity.toInt, unit))
-            case "Due" ~ "-" ~ quantity ~ unit => Before(Due, Offset(quantity.toInt, unit))} )
+        ^^ {case "Start" ~ "+" ~ quantity ~ unit => After(DependenceStart, Offset(quantity.toInt, unit))
+            case "Due" ~ "+" ~ quantity ~ unit => After(DependenceDue, Offset(quantity.toInt, unit))
+            case "Start" ~ "-" ~ quantity ~ unit => Before(DependenceStart, Offset(quantity.toInt, unit))
+            case "Due" ~ "-" ~ quantity ~ unit => Before(DependenceDue, Offset(quantity.toInt, unit))} )
         
     lazy val taskDescription: PackratParser[String] = regex("""[a-zA-Z0-9\s]*[a-zA-Z0-9]""".r)
 
@@ -51,7 +51,7 @@ object PeteParser extends JavaTokenParsers with PackratParsers {
        
     lazy val recurrence: PackratParser[Option[Recurrence]] = 
        ( "every" ~ wholeNumber ~ unit
-           ^^ {case _~quantity~unit => Some(Recurrence(Every(Offset(quantity.toInt, unit)))) }
+           ^^ {case _~quantity~unit => Some(Recurrence(Offset(quantity.toInt, unit))) }
        )
 
     lazy val unit: PackratParser[String] = 
