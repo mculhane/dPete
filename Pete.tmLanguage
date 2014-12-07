@@ -45,7 +45,7 @@
 				<key>2</key>
 				<dict>
 					<key>name</key>
-					<string>entity.name.class.pete</string>
+					<string>entity.name.class.startdate.pete</string>
 				</dict>
 				<key>3</key>
 				<dict>
@@ -55,11 +55,11 @@
 				<key>4</key>
 				<dict>
 					<key>name</key>
-					<string>entity.name.class.pete</string>
+					<string>entity.name.class.enddate.pete</string>
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(\@)([A-Za-z0-9\s\-]*)(\s-\s)([A-Za-z0-9\s\-]*)</string>
+			<string>(\@)\s([A-Za-z0-9:\s\-]*)\s(-)\s([A-Za-z0-9:\s\-]*)\s</string>
 		</dict>
 	</array>
 	<key>scopeName</key>

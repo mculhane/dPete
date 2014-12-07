@@ -4,6 +4,7 @@ import sublime_plugin
 import subprocess
 import functools
 import datetime
+import uuid
 import os
 import sys
 
@@ -120,6 +121,24 @@ class EmptyViewCommand(sublime_plugin.TextCommand):
 
     def run(self, edit): 
         self.view.erase(edit, sublime.Region(0, self.view.size()))
+
+class AddTaskCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        uid = "%06x" % (uuid.uuid4().int & 0xffffff)
+        contents = "#" + uid + " ${1:task name} @ ${2:start time} - ${3:end time} % ${4:repeat} \n$0"
+
+        self.gotoEnd(edit)
+        if (self.view.substr(self.view.size()-1) != '\n'):
+            self.view.insert(edit, self.view.size(), "\n")
+        self.view.run_command("insert_snippet", {"contents": contents})
+
+    def gotoEnd(self, edit):
+        pos = self.view.size()
+
+        self.view.sel().clear()
+        self.view.sel().add(sublime.Region(pos))
+
+        self.view.show(pos)
 
 
 class ReplaceDatesCommand(sublime_plugin.TextCommand):
