@@ -1,14 +1,14 @@
-#AAAAAA Take out the trash @ 2014-10-06 - 2015-10-11 % Recurrence Info TBD
-#AAAAAB Mow the lawn @ 2014-10-06 - 2015-01-14 % Recurrence Info TBD
-#AAAAAC Feed the fish @ 2014-10-06 - 2015-06-23 % Recurrence Info TBD
-#AAAAAD Replace smoke alarm battery @ 2014-07-06 - 2015-10-04 % Recurrence Info TBD
-#AAAAAE Buy milk @ 2014-10-06 - 2015-11-24 % Recurrence Info TBD
-#AAAAAF Pay cable bill @ 2014-10-06 - 2015-03-19 % Recurrence Info TBD
-#AAAAAG Wash the dog @ 2014-10-06 - 2015-06-04 % Recurrence Info TBD
-#AAAABA Water the plants @ 2014-10-06 - 2015-05-02 % Recurrence Info TBD
-#AAAABB Order concert tickets @ 2014-10-06 - 2015-10-29 % Recurrence Info TBD
-#AAAABC Wash the dishes @ 2014-10-06 - 2015-12-13 % Recurrence Info TBD
-#AAAABD Vacuum the carpet @ 2014-10-06 - 2015-01-03 % Recurrence Info TBD
-#AAAABE Book a hotel for Japan trip @ 2014-10-06 - 2015-08-02 % Recurrence Info TBD
-#AAAABF Renew health insurance @ 2014-10-06 - 2015-04-18 % Recurrence Info TBD
-#AAAACA Get a flu shot @ 2014-10-06 - 2015-02-02 % Recurrence Info TBD
+#AAAAAA Take out the trash @ 2014-12-06 - 2014-12-11 % every 1 week
+#AAAAAB Mow the lawn @ 2014-12-06 - 2014-12-14 % every 3 weeks
+#AAAAAC Feed the fish @ 2014-12-06 - 2014-12-08 % every 2 days
+#AAAAAD Replace smoke alarm battery @ 2014-12-06 - 2015-01-04 % every 6 months
+#AAAAAE Buy milk @ 2014-12-06 - 2014-12-12 % every 2 weeks
+#AAAAAF Pay cable bill @ 2014-12-06 - 2014-12-09 % every 1 month
+#AAAAAG Wash the dog @ 2014-12-06 - 2014-12-14 % every 1 month
+#AAAABA Water the plants @ 2014-12-06 - 2014-12-08 % every 4 days
+#AAAABB Order concert tickets @ 2014-12-06 - 2014-12-09
+#AAAABC Wash the dishes @ 2014-12-06 - 2014-12-09 % every 5 days
+#AAAABD Vacuum the carpet @ 2014-12-06 - 2014-12-14 % every 2 months
+#AAAABE Book a hotel for Japan trip @ 2014-12-06 - 2014-12-09
+#AAAABF Renew health insurance @ 2014-12-06 - 2014-12-18 % every 1 year
+#AAAACA Get a flu shot @ 2014-12-06 - 2014-12-22 % every 1 year
