@@ -58,7 +58,7 @@ object PeteParser extends JavaTokenParsers with PackratParsers {
       (
     	("""minutes?""".r ^^ {case _ => "minute"})
     	| ("""hours?""".r ^^ {case _ => "hour"})
-    	| ("""days?""".r ^^ {case _ => "days"})
+    	| ("""days?""".r ^^ {case _ => "day"})
     	| ("""weeks?""".r ^^ {case _ => "week"})
     	| ("""months?""".r ^^ {case _ => "month"})
     	| ("""years?""".r ^^ {case _ =>"year"})
