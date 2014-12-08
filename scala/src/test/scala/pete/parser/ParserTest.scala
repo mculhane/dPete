@@ -75,10 +75,6 @@ class HashParserTests extends FunSpec with LangParseMatchers[String] {
     it("can be reasonably long") {
       program("#ABC0139283ABCDEF013") should parseAs("#ABC0139283ABCDEF013")
     }
-    
-    it("cannot contain letters outside of A-F") {
-      program("#ABCDEFG") should not (parse)
-    }  
   }
 
 }
