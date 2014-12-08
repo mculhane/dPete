@@ -1,0 +1,20 @@
+[
+    {
+        "caption": "Project",
+        "mnemonic": "r",
+        "id": "project",
+        "children":
+        [
+            { 
+                "caption": "-", 
+                "id": "dPete"
+            },
+            {
+                "caption": "dPete",
+                "mnemonic": "d",
+                "command": "pete_start",
+                "args": {}
+            }
+        ]
+    }
+]

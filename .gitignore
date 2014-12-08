@@ -3,4 +3,5 @@
 .classpath
 .cache
 .metadata
+*.jar
 target/
