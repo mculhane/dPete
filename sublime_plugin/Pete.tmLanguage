@@ -13,7 +13,7 @@
 	<array>
 		<dict>
 			<key>match</key>
-			<string>#[a-zA-Z0-9]+</string>
+			<string>#[a-zA-Z0-9]*</string>
 			<key>name</key>
 			<string>comment.hash.pete</string>
 		</dict>
@@ -60,6 +60,55 @@
 			</dict>
 			<key>match</key>
 			<string>(\@)\s([A-Za-z0-9:\s\-]*)\s(-)\s([A-Za-z0-9:\s\-]*)\s</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.control.pete</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>comment.hash.reference.pete</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>(\^)\s?(#[A-Za-z0-9]*)</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.class.reference.pete</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.control.operator.pete</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>constant.other.increment.pete</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>constant.other.unit.pete</string>
+				</dict>
+				<key>5</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.control.pete</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>(Start|End)\s?(\-|\+)\s?([0-9]+)\s?(hours?|days?|weeks?|months?)\s?(,?)</string>
 		</dict>
 	</array>
 	<key>scopeName</key>

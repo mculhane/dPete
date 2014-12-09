@@ -48,7 +48,6 @@ class PeteStartCommand(sublime_plugin.ApplicationCommand):
         self.setup_tasks_buffer()
 
         PETE.window.focus_view(PETE.tasks)
-        # self.showPanel()
 
     def setup_output_buffer(self):
         """
@@ -59,7 +58,7 @@ class PeteStartCommand(sublime_plugin.ApplicationCommand):
         PETE.output = PETE.window.new_file()
         PETE.output.set_name("Next Tasks")
         PETE.output.set_scratch(True)                   # Never report dirty for output window
-        PETE.output.assign_syntax('Packages/Pete/Pete.tmLanguage')
+        self.setSyntax(3, PETE.output)                  # Wait for the view to load before apply settings
 
         # For unclear reasons, the view index must be set before creating the next view. 
         # Otherwise, this view is not displayed properly initially.
@@ -81,6 +80,8 @@ class PeteStartCommand(sublime_plugin.ApplicationCommand):
             sublime.set_timeout(lambda: self.setSyntax(trys-1, view), 500)
         else:
             view.assign_syntax('Packages/Pete/Pete.tmLanguage')
+            # TODO: I tried creating a separate settings file for this, but I couldn't get it to work. Revisit later.
+            view.settings().set("word_separators", "./\\()\"'-:,.;<>~!@$%^&*|+=[]{}`~?")
 
 
 class PeteProcessTasks(sublime_plugin.EventListener):
@@ -115,6 +116,24 @@ class PeteProcessTasks(sublime_plugin.EventListener):
 
             view.run_command("replace_dates")
 
+    # def on_query_completions(self, view, prefix, locations):
+    #     if (True in map(lambda x: x.startswith("comment.hash"), view.scope_name(locations[0]).split())):
+
+    #         classes = sublime.CLASS_WORD_END | sublime.CLASS_PUNCTUATION_END | sublime.CLASS_PUNCTUATION_START
+
+    #         region = view.expand_by_class(locations[0], classes)
+    #         region.a -= 1
+    #         thisword = view.substr(region)
+    #         print(thisword)
+    #         hashlocations = view.find_by_selector("comment.hash.pete")
+    #         hashes = map(lambda x: view.substr(x), hashlocations)
+
+    #         print(list(hashes))
+    #         filtered = filter(lambda x: x.casefold().startswith(thisword.casefold()), hashes)
+    #         print(list(filtered))
+    #         return list(filtered)
+
+
 
 # TODO: This feels so hacky. There has got to be a better way to call erase.
 class EmptyViewCommand(sublime_plugin.TextCommand):
@@ -123,18 +142,30 @@ class EmptyViewCommand(sublime_plugin.TextCommand):
         self.view.erase(edit, sublime.Region(0, self.view.size()))
 
 class AddTaskCommand(sublime_plugin.TextCommand):
-    def run(self, edit):
-        uid = "%06x" % (uuid.uuid4().int & 0xffffff)
-        contents = "#" + uid + " ${1:task name} @ ${2:start time} - ${3:end time} % ${4:repeat} \n$0"
+    def run(self, edit, type):
+        uid = "%06x" % (uuid.uuid4().int % 0xffffff)
+        contents = ""
+
+        if (type.casefold() == "absolute".casefold()):
+            contents = "#" + uid + " ${1:task name} @ ${2:start time} - ${3:end time} % ${4:repeat} \n$0"
+        elif (type.casefold() == "dependent".casefold()):
+            contents = "#" + uid + " ${1:task name} ^ ${2:dependent task} ${3:begin}, ${4:end} \n$0"
+        else:
+            sublime.error_message("Malformed type for add_task")
 
         self.gotoEnd(edit)
-        if (self.view.substr(self.view.size()-1) != '\n'):
-            self.view.insert(edit, self.view.size(), "\n")
+
         self.view.run_command("insert_snippet", {"contents": contents})
 
     def gotoEnd(self, edit):
+        """Move to line after last content in file"""
         pos = self.view.size()
-
+        if (self.view.substr(pos - 1) != '\n'):                            # Make sure there is a new line
+            self.view.insert(edit, pos, "\n")
+            pos += 1
+        else:
+            while (self.view.substr(pos - 2) == '\n'):
+                pos -= 1
         self.view.sel().clear()
         self.view.sel().add(sublime.Region(pos))
 
