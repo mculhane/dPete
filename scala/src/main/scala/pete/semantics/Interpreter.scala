@@ -73,7 +73,13 @@ package object semantics {
     return end.isDefined && end.get < DateTime.now
   }
   
-  def compute_next_due_tasks(task_list: TaskList, num_tasks: Int): List[Task] = {
+  def formatPretty(task_dictionary: Map[String, Task])(task:Task): String = {
+    val due = get_datetime(task.due, task_dictionary, task)
+    val formatted_due = DateTimeFormat.forPattern("EEE, MMM d hh:mm a").print(due.get)
+    "Due: " + formatted_due + " - " + task.description + " (" + task.hash + ")" 
+  }
+  
+  def compute_next_due_tasks(task_list: TaskList, num_tasks: Int): List[String] = {
     val task_dictionary = construct_task_dictionary(task_list)
     task_list.tasks.filter(isValidTask(task_dictionary))
     			   .flatMap(getCurrentInstance(task_dictionary))
@@ -82,6 +88,7 @@ package object semantics {
     			   .sortBy(_._2.get)
                    .take(num_tasks)
                    .map(_._1)
+                   .map(formatPretty(task_dictionary))
                    .toList
   }
   
