@@ -1,0 +1,4 @@
+#A Task A @ 2014-12-09 - 2014-12-13 % every 1 week
+#B Task B ^ #A Start+0 days, Due+0 days
+#C Task C ^ #B Start+2 days, Due+2 days
+#D Task D ^ #C Start-2 days, Due+3 hours
