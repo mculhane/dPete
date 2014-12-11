@@ -16,20 +16,20 @@ package object semantics {
     
     // Make sure the due date falls after the start date
     if (start.isDefined && due.isDefined && due.get < start.get) {
-      println("Task error: A task's due date must come after its start date.")
+      println("Ignoring task " + task.hash + ": A task's due date must come after its start date.")
       return false
     }
     
     // Make sure recurring tasks have start and due dates defined
     if (recurrence.isDefined && !(start.isDefined && due.isDefined)) {
-      println("Task error: A recurring task must have defined start and due dates.")
+      println("Ignoring task " + task.hash + ": A recurring task must have defined start and due dates.")
       return false
     }
     
     // Make sure recurring tasks' start and due dates encompass a smaller interval
     // than the recurrence interval.
-    if (recurrence.isDefined && (start.get to due.get).millis > get_period(recurrence.get.offset).millis) {
-      println("Task error: A recurring task cannot be active for longer than its recurrence interval.")
+    if (recurrence.isDefined && (start.get to due.get).millis > get_period(recurrence.get.offset).toDurationFrom(start.get).millis) {
+      println("Ignoring task " + task.hash + ": A recurring task cannot be active for longer than its recurrence interval.")
       return false
     }
 
