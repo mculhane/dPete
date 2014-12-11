@@ -107,8 +107,8 @@ package object semantics {
         case TimeStamp(datetime) => Some(datetime)
         case Before(expr, offset) => get_datetime(Some(expr), task_dictionary, task) map (_ - get_period(offset))
         case After(expr, offset) => get_datetime(Some(expr), task_dictionary, task) map (_ + get_period(offset))
-        case DependenceStart => get_datetime(task_dictionary.get(task.dependence.get).flatMap(_.start), task_dictionary, task)
-        case DependenceDue => get_datetime(task_dictionary.get(task.dependence.get).flatMap(_.due), task_dictionary, task)
+        case DependenceStart => get_datetime(task_dictionary.get(task.dependence.get).flatMap(_.start), task_dictionary, task_dictionary.get(task.dependence.get).get)
+        case DependenceDue => get_datetime(task_dictionary.get(task.dependence.get).flatMap(_.due), task_dictionary, task_dictionary.get(task.dependence.get).get)
     }) get
   }
   

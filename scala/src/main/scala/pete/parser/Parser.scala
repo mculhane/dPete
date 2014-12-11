@@ -29,7 +29,7 @@ object PeteParser extends JavaTokenParsers with PackratParsers {
      
     lazy val dependencyTask: PackratParser[Task] =  
       ( hash ~ taskDescription ~ "^" ~ hash ~ relativeDate ~ "," ~ relativeDate
-        ^^ {case hash~description~_~dependenceHash~start~_~due => Task(Some(start), Some(due), None, None, description, hash)})
+        ^^ {case hash~description~_~dependenceHash~start~_~due => Task(Some(start), Some(due), Some(dependenceHash), None, description, hash)})
     
     lazy val relativeDate: PackratParser[Expr] = 
       ( ("Start" | "Due") ~ ("+" | "-") ~ wholeNumber ~ unit
