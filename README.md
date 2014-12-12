@@ -36,4 +36,6 @@ The dPete interface is a split-screen interface. The top half of the screen is w
 
 To add a standard task (without a dependency), type CTRL-A (on Mac) or ALT-A (on Linux). A snippet should appear in the window with the basic syntax. To fill it in, replace the highlighted bit and use the tab key to highlight the next part of the snippet. Do this until the line is correctly filled out, then save the file to refresh the bottom panel. To add a task with a dependency, type CTRL-SHIFT-A (on Mac) or ALT-SHIFT-A (on Linux) and follow the same process.
 
+Note: When adding dates, feel free to try out relative dates. You can insert dates like "tomorrow" and "next Tuesday" and they should resolve to absolute dates upon saving.
+
 Feel free to save and close dPete at any time. The top panel (with your task list) will persist across sessions (presuming you save it).
