@@ -39,7 +39,7 @@ class ExprParserTests extends FunSpec with LangParseMatchers[Option[Expr]] {
   
   describe("A valid expr") {
     it("is a valid formatted datetime") {
-      program("Saturday, 10/06/2012 04:13AM") should parseAs(Some(TimeStamp(DateTime.parse("10/06/2012 04:13AM", DateTimeFormat.forPattern("dd/MM/YYYY hh:mmaa")))))
+      program("10/06/2012 04:13AM") should parseAs(Some(TimeStamp(DateTime.parse("10/06/2012 04:13AM", DateTimeFormat.forPattern("dd/MM/YYYY hh:mmaa")))))
     }
   }  
 }
