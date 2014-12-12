@@ -26,6 +26,11 @@ package object semantics {
       return false
     }
     
+    if (task.dependence.isDefined && task.dependence.get == task.hash) {
+      println("Ignoring task " + task.hash + ": A task cannot depend on itself.")
+      return false
+    }
+    
     // Make sure recurring tasks' start and due dates encompass a smaller interval
     // than the recurrence interval.
     if (recurrence.isDefined && (start.get to due.get).millis > get_period(recurrence.get.offset).toDurationFrom(start.get).millis) {
