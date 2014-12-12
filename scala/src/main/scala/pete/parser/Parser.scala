@@ -41,8 +41,8 @@ object PeteParser extends JavaTokenParsers with PackratParsers {
     lazy val taskDescription: PackratParser[String] = regex("""[a-zA-Z0-9\s]*[a-zA-Z0-9]""".r)
 
     lazy val expr: PackratParser[Option[Expr]] =
-      ( (("""\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}(:\d{2})?)?""".r)
-         ^^ {case datetime => Some(TimeStamp(DateTime.parse(datetime)))})
+      ( (("""[a-zA-Z0-9]*,""".r ~ """\d{2}/\d{2}/\d{4} \d{2}:\d{2}[AP]M""".r)
+         ^^ {case _ ~ datetime => Some(TimeStamp(DateTime.parse(datetime, DateTimeFormat.forPattern("dd/MM/YYYY hh:mmaa"))))})
         | failure("Unable to parse a datetime expression"))
     
     lazy val hash: PackratParser[String] = 

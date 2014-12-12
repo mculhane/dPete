@@ -1,6 +1,7 @@
 package pete.parser
 
 import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
 import org.scalatest.FunSpec
 
 import edu.hmc.langtools.LangParseMatchers
@@ -37,12 +38,8 @@ class ExprParserTests extends FunSpec with LangParseMatchers[Option[Expr]] {
   override val parser = {(s:String) => PeteParser.parseAll(PeteParser.expr, s)}
   
   describe("A valid expr") {
-    it("is an iso 8601 formatted date") {
-      program("2012-10-06") should parseAs(Some(TimeStamp(DateTime.parse("2012-10-06"))))
-    }
-
-    it("is an iso 8601 formatted datetime") {
-      program("2012-10-06T04:13:00") should parseAs(Some(TimeStamp(DateTime.parse("2012-10-06T04:13:00"))))
+    it("is a valid formatted datetime") {
+      program("Saturday, 10/06/2012 04:13AM") should parseAs(Some(TimeStamp(DateTime.parse("10/06/2012 04:13AM", DateTimeFormat.forPattern("dd/MM/YYYY hh:mmaa")))))
     }
   }  
 }
