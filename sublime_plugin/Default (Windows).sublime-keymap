@@ -1,3 +1,16 @@
 [
-	{ "keys": ["alt+a"], "command": "add_task" }
+	{ 
+		"keys": ["alt+a"], 
+		"command": "add_task", 
+		"args": {
+			"type": "absolute"
+		}
+	},
+	{ 
+		"keys": ["alt+shift+a"], 
+		"command": "add_task", 
+		"args": {
+			"type": "dependent"
+		}
+	}
 ]

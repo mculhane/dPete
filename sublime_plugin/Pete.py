@@ -91,6 +91,8 @@ class PeteProcessTasks(sublime_plugin.EventListener):
 
         # TODO: switch this to using a settings attribute instead of object comparison
         if (view == PETE.tasks):
+            view.run_command("replace_dates")
+
             taskRegion = sublime.Region(0, view.size())
             lines = view.lines(taskRegion)
 
@@ -101,12 +103,8 @@ class PeteProcessTasks(sublime_plugin.EventListener):
                     stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 output, err = sp.communicate(str.encode(inputString))
             except subprocess.CalledProcessError as e:
-                output = str.encode(inputString)
-                print("except")
-
-            # TODO: except case is not handled properly yet. Falls through with empty string
-            if (output == b''): 
-                output = str.encode(inputString)
+                # output = str.encode(inputString)
+                output = str.encode(e.__str__())
 
             # TODO: find a better way to do delete
             outputRegion = sublime.Region(0, PETE.output.size())
@@ -114,7 +112,8 @@ class PeteProcessTasks(sublime_plugin.EventListener):
 
             PETE.output.run_command("append", {"characters": bytes.decode(output)})
 
-            view.run_command("replace_dates")
+
+            
 
     # def on_query_completions(self, view, prefix, locations):
     #     if (True in map(lambda x: x.startswith("comment.hash"), view.scope_name(locations[0]).split())):
@@ -187,17 +186,19 @@ class ReplaceDatesCommand(sublime_plugin.TextCommand):
         # region indexes later in the loop.
         for region in combined:
             s = self.view.substr(region)
-            isoDate = self.replaceDate(s)
-            self.view.replace(edit, region, isoDate)
+            date = self.replaceDate(s)
+            self.view.replace(edit, region, date)
 
     def replaceDate(self, s):
         try:
-            isoDate = self.datetimeFromString(s).isoformat()
-        except ValueError as e:
-            sublime.error_message(e.__str__())
+            dtObj = self.datetimeFromString(s)
+            date = dtObj.strftime("%m/%d/%Y %H:%M%p")
+        except Exception as e:
+            print(e)
+            sublime.error_message("This date could not be processed: " + s)
             return s
 
-        return isoDate
+        return date
 
     def datetimeFromString(self, s):
         
@@ -210,12 +211,12 @@ class ReplaceDatesCommand(sublime_plugin.TextCommand):
         # 1 = date (with current time, as a struct_time)
         # 2 = time (with current date, as a struct_time)
         # 3 = datetime
-        if what in (1,2):
+        if what in (1,2,3):
             # result is struct_time
             dt = datetime.datetime( *result[:6] )
-        elif what == 3:
-            # result is a datetime
-            dt = result
+        # elif what == 3:
+        #     # result is a datetime
+        #     dt = result
 
         if dt is None:
             # Failed to parse
