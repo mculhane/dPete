@@ -102,6 +102,7 @@ class PeteProcessTasks(sublime_plugin.EventListener):
                 sp = subprocess.Popen(["java", "-jar", sublime.packages_path() + "/Pete/Pete-assembly-0.1.jar"], 
                     stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 output, err = sp.communicate(str.encode(inputString))
+                output = output + err
             except subprocess.CalledProcessError as e:
                 # output = str.encode(inputString)
                 output = str.encode(e.__str__())
@@ -192,7 +193,7 @@ class ReplaceDatesCommand(sublime_plugin.TextCommand):
     def replaceDate(self, s):
         try:
             dtObj = self.datetimeFromString(s)
-            date = dtObj.strftime("%m/%d/%Y %H:%M%p")
+            date = dtObj.strftime("%m/%d/%Y %I:%M%p")
         except Exception as e:
             print(e)
             sublime.error_message("This date could not be processed: " + s)

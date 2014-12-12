@@ -32,7 +32,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(Every|\%)([A-Za-z0-9\-\s/,]*)</string>
+			<string>\s(\%)([A-Za-z0-9\-\s/,]*)</string>
 		</dict>
 		<dict>
 			<key>captures</key>
@@ -59,7 +59,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(\@)\s([A-Za-z0-9:\s\-/,]*)\s(-)\s([A-Za-z0-9:\s\-/,]*)\s</string>
+			<string>(\@)\s([A-Za-z0-9:\s\-/,]*)\s(-)\s([A-Za-z0-9:\s\-/,]*)\b</string>
 		</dict>
 		<dict>
 			<key>captures</key>
@@ -108,7 +108,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(Start|End)\s?(\-|\+)\s?([0-9]+)\s?(hours?|days?|weeks?|months?)\s?(,?)</string>
+			<string>(Start|Due)\s?(\-|\+)\s?([0-9]+)\s?(hours?|days?|weeks?|months?)\s?(,?)</string>
 		</dict>
 	</array>
 	<key>scopeName</key>
