@@ -17,8 +17,7 @@ For dPete to work, you'll need Java all set up and ready to go. If you don't hav
 1. Download `Pete.sublime-package` from this repository.
 2. Navigate to your Sublime `Installed Packages` directory. On Mac, you can click (in Sublime) `Sublime Text > Preferences > Browse Packages`, which will take you to the `Packages` directory. The `Installed Packages` directory is at the same level as `Packages`.
 3. Copy `Pete.sublime-package` into `Installed Packages`.
-4. Create a directory called `Pete` in the `Packages` directory. (`Packages` is at the same level as `Installed Packages`.)
-5. Extract `Pete.sublime-package` into the newly created `Pete` directory.
+4. Extract `Pete.sublime-package` into a directory named `Pete` in the `Packages` directory. (`Packages` is at the same level as `Installed Packages`.)
   * Despite its unfamiliar extension, `Pete.sublime-package` is just a zip file. You may need to do an "open-with" to force your unarchiver to open it (or just use your favorite command-line zip extractor).
 5. Restart Sublime Text.
 
