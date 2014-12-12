@@ -29,7 +29,7 @@ class TaskParserTests extends FunSpec with LangParseMatchers[Task] {
   
   describe("A valid task") {
     it("works in the general case") {
-      program("#ABCDEF Take out the trash @ 10/06/2012 03:00PM - 10/04/2013 03:00PM % every 2 weeks") should parseAs(Task(Some(TimeStamp(DateTime.parse("10/06/2012 03:00PM", DateTimeFormat.forPattern("dd/MM/YYYY hh:mmaa")))), Some(TimeStamp(DateTime.parse("10/04/2013 03:00PM", DateTimeFormat.forPattern("dd/MM/YYYY hh:mmaa")))), None, Some(Recurrence(Offset(2, "week"))), "Take out the trash", "#ABCDEF"))
+      program("#ABCDEF Take out the trash @ 10/06/2012 03:00PM - 10/04/2013 03:00PM % every 2 weeks") should parseAs(Task(Some(TimeStamp(DateTime.parse("10/06/2012 03:00PM", DateTimeFormat.forPattern("MM/dd/YYYY hh:mmaa")))), Some(TimeStamp(DateTime.parse("10/04/2013 03:00PM", DateTimeFormat.forPattern("MM/dd/YYYY hh:mmaa")))), None, Some(Recurrence(Offset(2, "week"))), "Take out the trash", "#ABCDEF"))
     }
   }  
 }
@@ -39,7 +39,7 @@ class ExprParserTests extends FunSpec with LangParseMatchers[Option[Expr]] {
   
   describe("A valid expr") {
     it("is a valid formatted datetime") {
-      program("10/06/2012 04:13AM") should parseAs(Some(TimeStamp(DateTime.parse("10/06/2012 04:13AM", DateTimeFormat.forPattern("dd/MM/YYYY hh:mmaa")))))
+      program("10/06/2012 04:13AM") should parseAs(Some(TimeStamp(DateTime.parse("10/06/2012 04:13AM", DateTimeFormat.forPattern("MM/dd/YYYY hh:mmaa")))))
     }
   }  
 }

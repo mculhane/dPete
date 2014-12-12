@@ -42,7 +42,7 @@ object PeteParser extends JavaTokenParsers with PackratParsers {
 
     lazy val expr: PackratParser[Option[Expr]] =
       ( (("""\d{2}/\d{2}/\d{4} \d{2}:\d{2}[AP]M""".r)
-         ^^ {case datetime => Some(TimeStamp(DateTime.parse(datetime, DateTimeFormat.forPattern("dd/MM/YYYY hh:mmaa"))))})
+         ^^ {case datetime => Some(TimeStamp(DateTime.parse(datetime, DateTimeFormat.forPattern("MM/dd/YYYY hh:mmaa"))))})
         | failure("Unable to parse a datetime expression"))
     
     lazy val hash: PackratParser[String] = 
