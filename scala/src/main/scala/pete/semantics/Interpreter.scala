@@ -10,6 +10,13 @@ package object semantics {
   }
   
   def isValidTask(task_dictionary: Map[String, Task])(task: Task): Boolean = {
+
+    // Make sure the task doesn't depend on itself
+    if (task.dependence.isDefined && task.dependence.get == task.hash) {
+      println("Ignoring task " + task.hash + ": A task cannot depend on itself.")
+      return false
+    }
+    
     val recurrence = get_recurrence(task, task_dictionary)
     val start = get_datetime(task.start, task_dictionary, task)
     val due = get_datetime(task.due, task_dictionary, task)
@@ -23,11 +30,6 @@ package object semantics {
     // Make sure recurring tasks have start and due dates defined
     if (recurrence.isDefined && !(start.isDefined && due.isDefined)) {
       println("Ignoring task " + task.hash + ": A recurring task must have defined start and due dates.")
-      return false
-    }
-    
-    if (task.dependence.isDefined && task.dependence.get == task.hash) {
-      println("Ignoring task " + task.hash + ": A task cannot depend on itself.")
       return false
     }
     
