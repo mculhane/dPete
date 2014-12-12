@@ -1,4 +1,4 @@
-#A Task A @ 2014-12-09 - 2014-12-13 % every 1 week
-#B Task B ^ #A Start+0 days, Due+0 days
-#C Task C ^ #B Start+2 days, Due+2 days
-#D Task D ^ #C Start-2 days, Due+3 hours
+#AAA Task A @ 12/09/2014 - 12/13/2014 % every 1 week
+#AFD Task B ^ #AAA Start+0 days, Due+0 days
+#CAS Task C ^ #CAS Start+2 days, Due+2 days
+#AFD Task D @ 12/09/2014 - 12/13/2014

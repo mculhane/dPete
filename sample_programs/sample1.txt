@@ -1,14 +1,14 @@
-#AAAAAA Take out the trash @ 2014-12-06 - 2014-12-11 % every 1 week
-#AAAAAB Mow the lawn @ 2014-12-06 - 2014-12-14 % every 3 weeks
-#AAAAAC Feed the fish @ 2014-12-06 - 2014-12-08 % every 2 days
-#AAAAAD Replace smoke alarm battery @ 2014-12-06 - 2015-01-04 % every 6 months
-#AAAAAE Buy milk @ 2014-12-06 - 2014-12-12 % every 2 weeks
-#AAAAAF Pay cable bill @ 2014-12-06 - 2014-12-09 % every 1 month
-#AAAAAG Wash the dog @ 2014-12-06 - 2014-12-14 % every 1 month
-#AAAABA Water the plants @ 2014-12-06 - 2014-12-08 % every 4 days
-#AAAABB Order concert tickets @ 2014-12-06 - 2014-12-09
-#AAAABC Wash the dishes @ 2014-12-06 - 2014-12-09 % every 5 days
-#AAAABD Vacuum the carpet @ 2014-12-06 - 2014-12-14 % every 2 months
-#AAAABE Book a hotel for Japan trip @ 2014-12-06 - 2014-12-09
-#AAAABF Renew health insurance @ 2014-12-06 - 2014-12-18 % every 1 year
-#AAAACA Get a flu shot @ 2014-12-06 - 2014-12-22 % every 1 year
+#AAAAAA Take out the trash @ 12/06/2014 - 12/11/2014 % every 1 week
+#AAAAAB Mow the lawn @ 12/06/2014 - 12/14/2014 % every 3 weeks
+#AAAAAC Feed the fish @ 12/06/2014 - 12/08/2014 % every 2 days
+#AAAAAD Replace smoke alarm battery @ 12/06/2014 - 2015-01-04 % every 6 months
+#AAAAAE Buy milk @ 12/06/2014 - 12/12/2014 % every 2 weeks
+#AAAAAF Pay cable bill @ 12/06/2014 - 12/09/2014 % every 1 month
+#AAAAAG Wash the dog @ 12/06/2014 - 12/14/2014 % every 1 month
+#AAAABA Water the plants @ 12/06/2014 - 12/08/2014 % every 4 days
+#AAAABB Order concert tickets @ 12/06/2014 - 12/09/2014
+#AAAABC Wash the dishes @ 12/06/2014 - 12/09/2014 % every 5 days
+#AAAABD Vacuum the carpet @ 12/06/2014 - 12/14/2014 % every 2 months
+#AAAABE Book a hotel for Japan trip @ 12/06/2014 - 12/09/2014
+#AAAABF Renew health insurance @ 12/06/2014 - 12/18/2014 % every 1 year
+#AAAACA Get a flu shot @ 12/06/2014 - 12/22/2014 % every 1 year

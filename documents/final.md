@@ -30,10 +30,10 @@ In addition to TODO.txt, which is a more clear-cut language, we have also looked
 ## Example Program
 The following is an example of a program in our language:
 ```
-#AAA Task AAA @ 12-09-2014 - 12-13-2014 % every 1 week
+#AAA Task AAA @ 12/09/2014 - 12/13/2014 % every 1 week
 #AFD Task AFD ^ #AAA Start+0 days, Due+0 days
 #CAS Task CAS ^ #CAS Start+2 days, Due+2 days
-#AFD Task AFD @ 12-09-2014 - 12-13-2014
+#AFD Task AFD @ 12/09/2014 - 12/13/2014
 ```
 This sample program describes four separate tasks. Each task starts with a hash, which is an arbitrarily long alphanumeric string that is unique to the task.
 
